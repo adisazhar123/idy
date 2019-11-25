@@ -1,7 +1,9 @@
 <?php
 
+use Idy\Common\Events\DomainEventPublisher;
 use Idy\Idea\Application\CreateNewIdeaService;
 use Idy\Idea\Application\RateIdeaService;
+use Idy\Idea\Application\SwiftMailer;
 use Idy\Idea\Application\ViewAllIdeasService;
 use Idy\Idea\Application\VoteIdeaService;
 use Phalcon\Mvc\View;

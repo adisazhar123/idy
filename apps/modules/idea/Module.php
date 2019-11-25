@@ -19,6 +19,7 @@ class Module implements ModuleDefinitionInterface
             'Idy\Idea\Controllers\Web' => __DIR__ . '/controllers/web',
             'Idy\Idea\Controllers\Api' => __DIR__ . '/controllers/api',
             'Idy\Idea\Controllers\Validators' => __DIR__ . '/controllers/validators',
+            'Idy\Idea\Application\Contracts' => __DIR__ . '/application/contracts'
         ]);
 
         $loader->register();
@@ -31,6 +32,7 @@ class Module implements ModuleDefinitionInterface
         $di->get('config')->merge($moduleConfig);
 
         include_once __DIR__ . '/config/services.php';
+        include_once  __DIR__ . '/config/register-events.php';
     }
 
 }

@@ -85,7 +85,7 @@ class Idea
 
             DomainEventPublisher::instance()->publish(
                 new IdeaRated($this->author->name(), $this->author->email(), 
-                    $this->title, $ratingValue)
+                    $this->title, $ratingValue, $user)
             );
 
             return $newRating;

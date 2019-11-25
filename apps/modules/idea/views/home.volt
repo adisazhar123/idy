@@ -91,6 +91,10 @@
             position:relative;
             z-index:5;
         }
+        
+        form label {
+            color: #000 !important;
+        }
     </style>
 
 {% endblock %}
@@ -128,10 +132,12 @@
                 <div class="modal-body">
                     <form action="#">
                         <div class="form-group">
-                            <input type="number" class="form-control" name="value">
+                            <label for="">Rating</label>
+                            <input type="number" class="form-control" name="value" required min="1" max="5">
                         </div>
                         <div class="form-group">
-                            <input type="text" class="form-control" name="name">
+                            <label for="">Name</label>
+                            <input type="text" class="form-control" name="name" required>
                         </div>
                         <button class="btn btn-success btn-form-rate">Rate</button>
                     </form>

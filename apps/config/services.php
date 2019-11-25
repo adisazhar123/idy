@@ -1,5 +1,6 @@
 <?php
 
+use Idy\Idea\Application\SwiftMailer;
 use Phalcon\Logger\Adapter\File as Logger;
 use Phalcon\Session\Adapter\Files as Session;
 use Phalcon\Http\Response\Cookies;
@@ -110,3 +111,21 @@ $di->set(
         return $flash;
     }
 );
+
+
+$di->set('swiftMailerTransport', function ()  use ($di) {
+    $config = $di->get('config');
+    file_put_contents("/home/adisazhar/projects/phalcon/idy/php.log", "in here " . $config->mail->smtp->server);
+    $transport = (new Swift_SmtpTransport("smtp.mailtrap.io", "2525"))
+        ->setUsername("b66df0f7f5c60d")
+        ->setPassword("dfbbb2bd71eaed");
+
+    return $transport;
+});
+
+$di->set('swiftMailer', function () use ($di) {
+    $mailer = new Swift_Mailer($di->get('swiftMailerTransport'));
+
+    return new SwiftMailer($mailer);
+});
+
