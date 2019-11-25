@@ -18,7 +18,7 @@ class IdeaMapper
         {
             $author = new Author($idea['author_name'], $idea['author_email']);
             $ideaId = new IdeaId($idea['id']);
-            $this->ideasAndRatings[$idea['id']] = new Idea($ideaId, $idea['title'], $idea['description'], $author);
+            $this->ideasAndRatings[$idea['id']] = new Idea($ideaId, $idea['title'], $idea['description'], $idea['votes'], Idea::INIT_RATINGS, $author);
         }
 
         foreach ($ratings as $rating)
@@ -26,7 +26,7 @@ class IdeaMapper
             $r = new Rating($rating['name'], $rating['value']);
             $idea = $this->ideasAndRatings[$rating['idea_id']];
             $idea->appendRating($r);
-            $this->data[$rating['idea_id']] = $idea;
+            $this->ideasAndRatings[$rating['idea_id']] = $idea;
         }
     }
 

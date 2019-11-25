@@ -1,7 +1,9 @@
 <?php
 
 use Idy\Idea\Application\CreateNewIdeaService;
+use Idy\Idea\Application\RateIdeaService;
 use Idy\Idea\Application\ViewAllIdeasService;
+use Idy\Idea\Application\VoteIdeaService;
 use Phalcon\Mvc\View;
 use Phalcon\Mvc\View\Engine\Volt;
 use Idy\Idea\Infrastructure\SqlIdeaRepository;
@@ -66,3 +68,10 @@ $di->set('createNewIdeaService', function () use ($di) {
    return new CreateNewIdeaService($di->get('ideaRepository'));
 });
 
+$di->set('voteIdeaService', function () use ($di) {
+   return new VoteIdeaService($di->get('ideaRepository'));
+});
+
+$di->set('rateIdeaService', function () use ($di) {
+   return new RateIdeaService($di->get('ideaRepository'));
+});

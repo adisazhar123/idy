@@ -2,6 +2,8 @@
 
 namespace Idy\Idea\Domain\Model;
 
+use Idy\Common\Events\DomainEventPublisher;
+
 class Idea
 {
     private $id;
@@ -10,15 +12,27 @@ class Idea
     private $author;
     private $ratings;
     private $votes;
-    
-    public function __construct(IdeaId $id, $title, $description, Author $author)
+
+    const INIT_VOTE = 0;
+    const INIT_RATINGS = [];
+
+    public function __construct(IdeaId $id, $title, $description, $votes, array $ratings, Author $author)
     {
         $this->id = $id;
         $this->title = $title;
         $this->description = $description;
         $this->author = $author;
-        $this->ratings = array();
-        $this->votes = 0;
+        $this->votes = $votes;
+
+        if (! $ratings) {
+            $this->ratings = $ratings;
+        } else {
+            foreach ($ratings as $rating)
+            {
+                $this->ratings[] = new Rating($rating['name'], $rating['value']);
+            }
+        }
+
     }
 
     public function appendRating($rating)
@@ -74,6 +88,7 @@ class Idea
                     $this->title, $ratingValue)
             );
 
+            return $newRating;
         }
     }
 
@@ -96,9 +111,9 @@ class Idea
         return $totalRatings / $numberOfRatings;
     }
 
-    public static function makeIdea($title, $description, $author)
+    public static function makeIdea($title, $description, $votes, $author)
     {
-        $newIdea = new Idea(new IdeaId(), $title, $description, $author);
+        $newIdea = new Idea(new IdeaId(), $title, $description, $votes, self::INIT_RATINGS, $author);
         
         return $newIdea;
     }

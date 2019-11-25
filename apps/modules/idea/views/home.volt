@@ -108,15 +108,79 @@
                 <p>{{ idea.description() }}</p>
                 <div class="author">{{ idea.author().name() }}</div>
                 <div class="email">{{ idea.author().email() }}</div>
-                <div class="rating">Ratings: {{ idea.numberOfRatings() }} | Average rating: {{ idea.averageRating() }} <a href="{{ url('idea/rate/') }}{{ 1 }}">Rate</a></div>
-                <div class="rating">Votes: {{ idea.votes() }} <a href="{{ url('idea/vote/') }}{{ 1 }}">Vote</a></div>
+                <div class="rating">Ratings: {{ idea.numberOfRatings() }} | Average rating: {{ idea.averageRating() }} <button class="btn btn-warning rate" ideaId="{{ idea.id().id() }}">Rate</button></div>
+                <div class="rating">Votes: {{ idea.votes() }}
+                    <form action="/idea/vote" method="post"><input type="hidden" name="ideaId" value="{{ idea.id().id() }}"> <button class="btn btn-success" type="submit">Vote</button></form>
+                </div>
             </div>
         </li>
         {% endfor %}
     </ul>
 
+    <div class="modal fade" tabindex="-1" role="dialog">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <div class="modal-body">
+                    <form action="#">
+                        <div class="form-group">
+                            <input type="number" class="form-control" name="value">
+                        </div>
+                        <div class="form-group">
+                            <input type="text" class="form-control" name="name">
+                        </div>
+                        <button class="btn btn-success btn-form-rate">Rate</button>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+
 {% endblock %}
 
 {% block scripts %}
+
+<script>
+    $(document).ready(function () {
+
+        let _ideaId = null;
+
+        $(".rate").click(function () {
+           const ideaId = $(this).attr('ideaId');
+           _ideaId = ideaId;
+           console.log(ideaId);
+           $(".modal").modal('show');
+        });
+
+        $(".btn-form-rate").click(async function (e) {
+            e.preventDefault();
+            const value = $("input[name='value']").val();
+            const name = $("input[name='name']").val();
+
+            if (value == "" || name == "") {
+                alert("Please fill in.");
+                return false;
+            }
+
+            console.log(value, name, _ideaId);
+
+            const res = await $.ajax({
+                url: '/idea/rate',
+                method: 'post',
+                data: {value, name, ideaId: _ideaId}
+            });
+
+            alert(res);
+
+            location.reload();
+
+        });
+
+    });
+</script>
 
 {% endblock %}

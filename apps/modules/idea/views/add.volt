@@ -11,7 +11,7 @@
 <div class="idea">
     <div class="card">
         <div class="card-body">
-            <form action="/add" method="POST">
+            <form action="/idea/add" method="POST">
                 <div class="form-group">
                     <label for="">Idea Title</label>
                     <input type="text" class="form-control" name="ideaTitle">

@@ -19,7 +19,7 @@ class CreateNewIdeaService
     public function handle(CreateNewIdeaRequest $request)
     {
         try {
-            $idea = Idea::makeIdea($request->getIdeaTitle(), $request->getIdeaDescription(), new Author($request->getAuthorName(), $request->getAuthorEmail()));
+            $idea = Idea::makeIdea($request->getIdeaTitle(), $request->getIdeaDescription(),Idea::INIT_VOTE, new Author($request->getAuthorName(), $request->getAuthorEmail()));
             $response = $this->ideaRepository->save($idea);
 
             return new CreateNewIdeaResponse($response, "Idea created successfully.");

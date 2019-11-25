@@ -3,17 +3,23 @@
 namespace Idy\Idea\Controllers\Web;
 
 use Idy\Idea\Application\CreateNewIdeaRequest;
+use Idy\Idea\Application\RateIdeaRequest;
+use Idy\Idea\Application\VoteIdeaRequest;
 use Phalcon\Mvc\Controller;
 
 class IdeaController extends Controller
 {
     protected $viewAllIdeasService;
     protected $createNewIdeaService;
+    protected $voteIdeaService;
+    protected $rateIdeaService;
 
     public function initialize()
     {
         $this->viewAllIdeasService = $this->di->get('viewAllIdeasService');
         $this->createNewIdeaService = $this->di->get('createNewIdeaService');
+        $this->voteIdeaService = $this->di->get('voteIdeaService');
+        $this->rateIdeaService = $this->di->get('rateIdeaService');
     }
 
     public function indexAction()
@@ -49,12 +55,24 @@ class IdeaController extends Controller
 
     public function voteAction()
     {
-        
+        $request = new VoteIdeaRequest($this->request->getPost('ideaId'));
+        $response = $this->voteIdeaService->handle($request);
+
+        $response->getError()
+            ? $this->flashSession->error($response->getMessage())
+            : $this->flashSession->success($response->getMessage());
+
+        return $this->response->redirect('');
     }
 
     public function rateAction()
     {
-        
+        $ideaId = $this->request->getPost('ideaId');
+        $value = $this->request->getPost('value');
+        $name = $this->request->getPost('name');
+
+        $request = new RateIdeaRequest($ideaId, $value, $name);
+        return $this->rateIdeaService->handle($request)->getMessage();
     }
 
 }
