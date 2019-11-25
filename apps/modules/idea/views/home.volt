@@ -96,6 +96,9 @@
 {% endblock %}
 
 {% block content %}
+    <div class="sessionMessage">
+        <p><?php $this->flashSession->output() ?></p>
+    </div>
 
     <ul>
         {% for idea in ideas %}

@@ -87,7 +87,13 @@ $di['router'] = function() use ($defaultModule, $modules, $di, $config) {
 				'controller' => 2,
 				'action' => 3,
 				'params' => 4
-			));	
+			));
+
+            $moduleRouting = APP_PATH . '/modules/'. $moduleName .'/config/routing.php';
+            isset($module['userDefinedRouting']) && $module['userDefinedRouting'] && file_exists($moduleRouting) && is_file($moduleRouting)
+                ? include $moduleRouting
+                : null;
+
 		} else {
 			
 			$webModuleRouting = APP_PATH . '/modules/'. $moduleName .'/config/routes/web.php';

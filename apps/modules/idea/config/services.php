@@ -1,5 +1,6 @@
 <?php
 
+use Idy\Idea\Application\CreateNewIdeaService;
 use Idy\Idea\Application\ViewAllIdeasService;
 use Phalcon\Mvc\View;
 use Phalcon\Mvc\View\Engine\Volt;
@@ -60,3 +61,8 @@ $di->set('ideaRepository', function() use ($di) {
 $di->set('viewAllIdeasService', function () use ($di) {
    return new ViewAllIdeasService($di->get('ideaRepository'));
 });
+
+$di->set('createNewIdeaService', function () use ($di) {
+   return new CreateNewIdeaService($di->get('ideaRepository'));
+});
+

@@ -2,12 +2,10 @@
 
 namespace Idy\Idea\Application;
 
-class CreateNewIdeaResponse
+class CreateNewIdeaResponse extends GenericResponse
 {
-  
-
-    public function __construct()
+    public function __construct($data, $message, $error = null)
     {
+        parent::__construct($data, $message, $error);
     }
-
 }
