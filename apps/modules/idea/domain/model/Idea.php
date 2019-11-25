@@ -21,6 +21,11 @@ class Idea
         $this->votes = 0;
     }
 
+    public function appendRating($rating)
+    {
+        $this->ratings[] = $rating;
+    }
+
     public function id() 
     {
         return $this->id;
@@ -79,7 +84,9 @@ class Idea
 
     public function averageRating()
     {
-        $numberOfRatings = count($this->rating);
+        $numberOfRatings = count($this->ratings);
+        if (! $numberOfRatings) return 0;
+
         $totalRatings = 0;
 
         foreach ($this->ratings as $rating) {
@@ -94,6 +101,11 @@ class Idea
         $newIdea = new Idea(new IdeaId(), $title, $description, $author);
         
         return $newIdea;
+    }
+
+    public function numberOfRatings()
+    {
+        return count($this->ratings);
     }
 
 }

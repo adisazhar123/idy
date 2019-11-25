@@ -1,5 +1,6 @@
 <?php
 
+use Idy\Idea\Application\ViewAllIdeasService;
 use Phalcon\Mvc\View;
 use Phalcon\Mvc\View\Engine\Volt;
 use Idy\Idea\Infrastructure\SqlIdeaRepository;
@@ -50,8 +51,12 @@ $di['db'] = function () use ($di) {
     ]);
 };
 
-$di->setShared('sql_idea_repository', function() use ($di) {
-    $repo = new SqlIdeaRepository($di);
+$di->set('ideaRepository', function() use ($di) {
+    $repo = new SqlIdeaRepository($di->get('db'));
 
     return $repo;
+});
+
+$di->set('viewAllIdeasService', function () use ($di) {
+   return new ViewAllIdeasService($di->get('ideaRepository'));
 });

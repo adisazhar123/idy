@@ -7,4 +7,5 @@ interface IdeaRepository
     public function byId(IdeaId $id);
     public function save(Idea $idea);
     public function allIdeas();
+    public function allRatings();
 }
